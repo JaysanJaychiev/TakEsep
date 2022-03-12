@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  {% block title %}<title>Пользователи</title>{% endblock %}
+  <style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+    </style>
+</head>
+<body>
+    {% block content %}
+      <ul class="sidebar-nav">
+      {% if user.is_authenticated %}
+        <li>Добро пожаловать: {{ user.get_username }}</li>
+        <li><a href="{% url 'account_logout'%}?next={{request.path}}">Выйти</a></li>
+        {% if user.is_staff %}
+          <button><a href="admin/auth/user/">Редактировать пользователей</a></button>
+          <table class="table">
+            <tr>
+            <th>ИМЯ ПОЛЬЗОВАТЕЛЯ</th>
+            <th>АДРЕС ЭЛЕКТРОННОЙ ПОЧТЫ </th>
+            <th>ИМЯ</th>
+            <th>ФАМИЛИЯ</th>
+            </tr>
+            {% for people in allusers %}
+                <tr>
+                <td>{{ people.username }}</td>
+                <td>{{ people.email }}</td>
+                <td>{{ people.first_name }}</td>
+                <td>{{ people.last_name }}</td>
+                </tr>
+            {% endfor %}
+        </table> 
+        {% else %}
+          <table class="table">
+            <tr>
+            <th>Пользователь</th>
+            <th>email</th>
+            </tr>
+            {% for people in allusers %}
+                <tr>
+                <td>{{ people.username }}</td>
+                <td>{{ people.email }}</td>
+                </tr>
+            {% endfor %}
+          </table>
+        {% endif %}
+      {% else %}
+        <li><a href="{% url 'account_login'%}">Войти</a></li>
+        <li><a href="{% url 'account_signup'%}">Регистрация</a></li>
+      {% endif %} 
+      </ul>
+    {% endblock %}
+</body>
+</html>
