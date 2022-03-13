@@ -1,5 +1,5 @@
 from pathlib import Path
-from telnetlib import AUTHENTICATION
+# from telnetlib import AUTHENTICATION
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,6 +27,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'LocalUser',
+
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -128,15 +130,16 @@ AUTHENTICATION_BACKENDS = (
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = '*'
-EMAIL_HOST_PASSWORD = '*'
+EMAIL_HOST_USER = '*******'
+EMAIL_HOST_PASSWORD = '*******'
 EMAIL_PORT = 587
 
 SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
-ACCOUNT_SIGNUP_FORM_CLASS = "TezSat.forms.SignupForm"
+ACCOUNT_SIGNUP_FORM_CLASS = "LocalUser.forms.SignupForm"
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 AUTHENTICATION_METHOD = 'EMAIL'
 ACCOUNT_EMAIL_VERIFICATION = 'optional' 
@@ -144,7 +147,10 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/home/'
+# AUTH_USER_MODEL = 'LocalUser.UserModel'
+
 
 
 SITE_ID = 1
